@@ -111,3 +111,14 @@ movl %ebp, %esp
 popl %ebp
 
 ret
+
+# In order to assemble and run this program on an x64 system
+# 
+# as --32 -o maxfunc.o maxfunc.s
+# ld -m elf_i386 -o maxfunc maxfunc.s
+# ./maxfunc
+# echo $?
+#
+# From a command line.
+#
+# output of echo $? should be 200 as this is the largest data item in the set of lists
