@@ -1,7 +1,7 @@
 # PURPOSE: create a new file named heynow.txt
 #	   and write the words "hey diddle diddle!" into it#
 # PROCESSING: 1) Open the output file
-#	      2) Output the text into the file
+#	      2) Write the text into the file
 # 	      3) Close the file
 
 .section .data
@@ -31,6 +31,7 @@ heynow:
 heynow_end:
 .equ heynow_len, heynow_end - heynow
 
+# declare the name for the file to be created
 filename:
 .ascii "heynow.txt"
 
@@ -44,15 +45,22 @@ movl $O_CREAT_WRONLY_TRUNC, %ecx
 movl $0666, %edx
 int $LINUX_SYSCALL
 
+# use the resulting file descriptor
+# to write the text into the file
 movl %eax, %ebx
 movl $heynow, %ecx
 movl $heynow_len, %edx
 movl $WRITE, %eax
 int $LINUX_SYSCALL
 
+# close the file written
+# the descriptor is already in the %ebx register
+# so only move the CLOSE system call into %eax
 movl $CLOSE, %eax
 int $LINUX_SYSCALL
 
+# set up the registers for
+# program exit, return code is 0.
 movl $0, %ebx
 movl $EXIT, %eax
 int $LINUX_SYSCALL
